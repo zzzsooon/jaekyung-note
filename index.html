@@ -1,691 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>재경관리사 오답노트</title>
-
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: #f7f7f5;
-  color: #222;
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
-               "Noto Sans KR", sans-serif;
-}
-
-.container {
-  max-width: 720px;
-  margin: auto;
-  padding: 28px 18px 70px;
-}
-
-h1 {
-  margin: 0;
-  font-size: 30px;
-  letter-spacing: -1px;
-}
-
-.subtitle {
-  color: #888;
-  font-size: 14px;
-  margin-top: 7px;
-  margin-bottom: 25px;
-}
-
-/* 회차 */
-.round {
-  display: inline-block;
-  background: #222;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 12px;
-  font-weight: 700;
-  margin-bottom: 18px;
-}
-
-/* 필터 */
-.filters {
-  display: flex;
-  gap: 7px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-
-.filter {
-  border: 1px solid #ddd;
-  background: white;
-  padding: 8px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.filter.active {
-  background: #222;
-  color: white;
-  border-color: #222;
-}
-
-/* 카드 */
-.card {
-  background: white;
-  border: 1px solid #e8e8e5;
-  border-radius: 14px;
-  margin-bottom: 9px;
-  overflow: hidden;
-}
-
-.card-header {
-  padding: 15px 14px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  cursor: pointer;
-  font-weight: 650;
-  font-size: 16px;
-}
-
-.number {
-  color: #aaa;
-  font-size: 12px;
-  min-width: 22px;
-}
-
-.title {
-  flex: 1;
-}
-
-.arrow {
-  color: #aaa;
-  transition: .2s;
-}
-
-.card.open .arrow {
-  transform: rotate(180deg);
-}
-
-.content {
-  display: none;
-  padding: 0 16px 17px 45px;
-  line-height: 1.7;
-  font-size: 15px;
-}
-
-.card.open .content {
-  display: block;
-}
-
-.content p {
-  margin: 7px 0;
-}
-
-.key {
-  margin-top: 12px;
-  background: #fff8d8;
-  padding: 10px 12px;
-  border-radius: 9px;
-  font-weight: 700;
-}
-
-.red { color: #df3b36; }
-.yellow { color: #e5a000; }
-.green { color: #29a064; }
-
-.badge {
-  font-size: 12px;
-  padding: 3px 7px;
-  border-radius: 7px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.badge.red {
-  background: #ffe8e6;
-}
-
-.badge.yellow {
-  background: #fff3cd;
-}
-
-.badge.green {
-  background: #e5f5eb;
-}
-
-.section-title {
-  font-size: 13px;
-  color: #999;
-  font-weight: 700;
-  margin: 20px 3px 10px;
-}
+*{box-sizing:border-box}body{margin:0;background:#faf9f6;color:#202124;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}.wrap{max-width:700px;margin:auto;padding:28px 16px 70px}h1{margin:0;font-size:27px}.sub{color:#777;margin:6px 0 22px}.stats{display:flex;gap:8px;margin-bottom:16px}.stat{flex:1;background:#fff;border:1px solid #ddd;border-radius:13px;padding:11px;text-align:center;font-size:13px}.stat b{display:block;font-size:19px;margin-top:3px}input{width:100%;padding:13px 15px;border:1.5px solid #ccc;border-radius:13px;background:#fff;font-size:16px;outline:none;margin-bottom:11px}input:focus{border-color:#356ae6}.filters{display:flex;gap:7px;overflow:auto;margin:5px 0 16px;padding-bottom:3px}.filters button{white-space:nowrap;border:1px solid #ccc;background:#fff;padding:8px 11px;border-radius:20px;font-weight:650}.filters button.on{background:#202124;color:#fff;border-color:#202124}.card{background:#fff;border:1px solid #ddd;border-radius:14px;margin:9px 0;overflow:hidden}.head{padding:14px;cursor:pointer}.meta{font-size:12px;font-weight:700;margin-bottom:5px}.암기{color:#d9343a}.공식{color:#1769d2}.이해{color:#16844b}.title{font-size:16px;font-weight:750}.key{font-size:14px;color:#555;margin-top:5px}.detail{display:none;border-top:1px solid #eee;padding:13px 14px;line-height:1.65;font-size:14px}.card.open .detail{display:block}.round{margin-top:10px;color:#777;font-size:12px}.fire{float:right;color:#e05a22}
 </style>
 </head>
-
 <body>
-
-<div class="container">
-
+<div class="wrap">
 <h1>📚 재경관리사 오답노트</h1>
-<div class="subtitle">틀린 것만 빠르게 다시 보기</div>
+<div class="sub">헷갈리는 것만 빠르게 다시 보기</div>
 
-<div class="round">2025년 1월 · 재무회계</div>
-
-<div class="filters">
-  <button class="filter active" onclick="filterCards('all', this)">전체</button>
-  <button class="filter" onclick="filterCards('암기', this)">🔴 암기</button>
-  <button class="filter" onclick="filterCards('공식', this)">🟡 공식</button>
-  <button class="filter" onclick="filterCards('이해', this)">🟢 이해</button>
-</div>
-
-<div class="section-title">오늘의 오답</div>
-
-
-<!-- 1 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">01</span>
-<span class="badge red">암기</span>
-<span class="title">OCI 후속 재분류</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p><b>당기손익으로 재분류 O</b></p>
-<p>• 해외사업장 재무제표 환산손익</p>
-<p>• FVOCI 채무상품</p>
-
-<p><b>당기손익으로 재분류 X</b></p>
-<p>• FVOCI 지분상품</p>
-<p>• 유형자산 재평가잉여금</p>
-<p>• 확정급여제도 재측정요소</p>
-
-<div class="key">⭐ 암기: 채무 O / 지분 X</div>
-</div>
-</div>
-
-
-<!-- 2 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">02</span>
-<span class="badge red">암기</span>
-<span class="title">중간재무보고 비교기간</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p><b>재무상태표</b></p>
-<p>당기 중간기말 ↔ <b>직전 회계연도 말</b></p>
-
-<p><b>포괄손익계산서</b></p>
-<p>당기 중간기간 + 누적기간 ↔ 전년 동일기간</p>
-
-<p><b>자본변동표 / 현금흐름표</b></p>
-<p>누적기간 ↔ 전년 동일 누적기간</p>
-
-<div class="key">⭐ 재무상태표만 '직전 연말'과 비교</div>
-</div>
-</div>
-
-
-<!-- 3 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">03</span>
-<span class="badge red">암기</span>
-<span class="title">재고자산 보관원가</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>일반적인 보관원가 → <b>당기비용</b></p>
-<p>단, 후속 생산단계에 투입하기 전에 <b>보관이 반드시 필요한 경우</b>에는 원가에 포함 가능.</p>
-
-<div class="key">⭐ 필요한 보관 = 원가 가능 / 그냥 보관 = 비용</div>
-</div>
-</div>
-
-
-<!-- 4 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">04</span>
-<span class="badge red">암기</span>
-<span class="title">농림어업 수확물 최초측정</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>생물자산에서 수확한 농림어업 수확물은</p>
-<p><b>수확시점</b>의 공정가치에서 처분부대원가를 차감한 금액으로 측정.</p>
-
-<div class="key">⭐ 판매시점 X → 수확시점 O</div>
-</div>
-</div>
-
-
-<!-- 5 -->
-<div class="card" data-type="공식">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">05</span>
-<span class="badge yellow">공식</span>
-<span class="title">유형자산 재평가 계산</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>취득원가 50,000 / 내용연수 5년 / 정액법</p>
-<p>연 감가상각 = 10,000</p>
-<p>2년 후 장부금액 = 30,000</p>
-<p>공정가치 = 40,000</p>
-<p><b>재평가증가 = 10,000</b></p>
-
-<div class="key">⭐ 재평가 직전 장부금액 ↔ 공정가치 비교</div>
-</div>
-</div>
-
-
-<!-- 6 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">06</span>
-<span class="badge red">암기</span>
-<span class="title">원가·재평가·공정가치모형 구별</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p><b>유형자산</b></p>
-<p>원가모형 / 재평가모형</p>
-
-<p><b>투자부동산</b></p>
-<p>원가모형 / 공정가치모형</p>
-
-<p><b>유형자산 재평가모형</b></p>
-<p>감가상각 O / 재평가증가 원칙 OCI</p>
-
-<p><b>투자부동산 공정가치모형</b></p>
-<p>감가상각 X / 공정가치 변동 당기손익</p>
-
-<div class="key">⭐ 유형자산 = 재평가 / 투자부동산 = 공정가치</div>
-</div>
-</div>
-
-
-<!-- 7 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">07</span>
-<span class="badge red">암기</span>
-<span class="title">무형자산 상각</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>유한 내용연수 → 상각 O</p>
-<p>비한정 내용연수 → 상각 X, 손상검사</p>
-<p>소비형태를 신뢰성 있게 결정 못함 → 정액법</p>
-<p>비한정 → 유한으로 변경 가능</p>
-
-<p>잔존가치는 장부금액보다 커질 수도 있으며, 이 경우 상각액이 0이 될 수 있음.</p>
-
-<div class="key">⭐ '잔존가치는 장부금액보다 클 수 없다' → 틀림</div>
-</div>
-</div>
-
-
-<!-- 8 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">08</span>
-<span class="badge red">암기</span>
-<span class="title">투자부동산 모형 선택</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>공정가치모형 또는 원가모형을 회계정책으로 선택.</p>
-<p>선택한 정책은 원칙적으로 <b>모든 투자부동산</b>에 적용.</p>
-<p>단순히 '투자부동산 유형별로 자유롭게 각각 선택'하는 개념이 아님.</p>
-
-<div class="key">⭐ FV모형: 감가상각 X / 가치변동 당기손익</div>
-</div>
-</div>
-
-
-<!-- 9 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">09</span>
-<span class="badge red">암기</span>
-<span class="title">FVOCI 지분상품 처분</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>FVOCI로 지정한 <b>지분상품</b>의 평가손익은 OCI.</p>
-<p>처분해도 누적 OCI를 <b>당기손익으로 재분류하지 않음.</b></p>
-<p>자본 내에서 대체는 가능.</p>
-
-<div class="key">⭐ 처분이익 당기손익 = 0원</div>
-</div>
-</div>
-
-
-<!-- 10 -->
-<div class="card" data-type="이해">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">10</span>
-<span class="badge green">이해</span>
-<span class="title">사채 할인·할증발행</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p><b>시장이자율 &gt; 액면이자율</b></p>
-<p>→ 투자자가 액면가를 다 주기 싫어함</p>
-<p>→ <b>할인발행</b></p>
-
-<p><b>시장이자율 &lt; 액면이자율</b></p>
-<p>→ 사채 이자가 매력적</p>
-<p>→ <b>할증발행</b></p>
-
-<div class="key">⭐ 시장 &gt; 액면 = 할인 / 시장 &lt; 액면 = 할증</div>
-</div>
-</div>
-
-
-<!-- 11 -->
-<div class="card" data-type="공식">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">11</span>
-<span class="badge yellow">공식</span>
-<span class="title">누적·비참가 우선주 배당</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>우선주 자본금 2,000,000 × 10% = 연 200,000</p>
-<p>전년도 미배당 + 당년도 = 400,000</p>
-<p>총 배당 500,000 - 우선주 400,000</p>
-<p><b>보통주 배당 = 100,000</b></p>
-
-<div class="key">⭐ 누적 = 밀린 배당까지 / 비참가 = 우선배당 후 추가참가 X</div>
-</div>
-</div>
-
-
-<!-- 12 -->
-<div class="card" data-type="이해">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">12</span>
-<span class="badge green">이해</span>
-<span class="title">비누적 우선주</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>비누적이면 전년도에 못 받은 배당은 소멸.</p>
-<p>당해연도 우선배당 200,000만 우선주에 배분.</p>
-<p>총배당 500,000이면 보통주 = 300,000.</p>
-
-<div class="key">⭐ 비누적 = 밀린 거 안 챙김</div>
-</div>
-</div>
-
-
-<!-- 13 -->
-<div class="card" data-type="공식">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">13</span>
-<span class="badge yellow">공식</span>
-<span class="title">자본총계 계산</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>기초자본 = 자산 35,000,000 - 부채 13,000,000</p>
-<p>= 22,000,000</p>
-
-<p>총포괄이익 = 당기순이익 1,300,000 + OCI 1,100,000</p>
-<p>= +2,400,000</p>
-
-<p>유상증자 현금유입 = +600,000</p>
-<p>자기주식 취득 = -700,000</p>
-<p>주식배당은 자본 내부 대체 → 자본총계 변화 X</p>
-
-<div class="key">⭐ 자본총계 = 기초자본 + 총포괄이익 + 소유주거래 증감</div>
-</div>
-</div>
-
-
-<!-- 14 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">14</span>
-<span class="badge red">암기</span>
-<span class="title">라이선스 수익 인식</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>기업이 라이선스 대상 지적재산을 계속 변경·지원해야 하는 의무가 없다면 <b>사용권</b> 성격.</p>
-<p>사용권 라이선스는 고객이 사용할 수 있게 되는 시점에 수익 인식.</p>
-<p>문제에서는 재녹음 활동을 수행하지 않음.</p>
-
-<div class="key">⭐ 접근권 = 기간 / 사용권 = 시점</div>
-</div>
-</div>
-
-
-<!-- 15 -->
-<div class="card" data-type="공식">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">15</span>
-<span class="badge yellow">공식</span>
-<span class="title">건설계약 계약자산</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>누적원가 40m + 추가예정원가 60m</p>
-<p>총예정원가 = 100m</p>
-<p>진행률 = 40 / 100 = 40%</p>
-<p>누적수익 = 120m × 40% = 48m</p>
-<p>청구액 = 40m</p>
-<p><b>계약자산 = 8m</b></p>
-
-<div class="key">⭐ 총계약금액 ≠ 총예정원가</div>
-</div>
-</div>
-
-
-<!-- 16 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">16</span>
-<span class="badge red">암기</span>
-<span class="title">확정급여제도 손익 구분</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p><b>당기손익</b></p>
-<p>• 당기근무원가</p>
-<p>• 과거근무원가</p>
-<p>• 순확정급여부채(자산)의 순이자</p>
-
-<p><b>OCI</b></p>
-<p>• 재측정요소</p>
-
-<div class="key">⭐ 재측정요소 = OCI + 후속 재분류 X</div>
-</div>
-</div>
-
-
-<!-- 17 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">17</span>
-<span class="badge red">암기</span>
-<span class="title">법인세 일시적차이</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>가산할 일시적차이 → 이연법인세<b>부채</b></p>
-<p>차감할 일시적차이 → 이연법인세<b>자산</b></p>
-<p>미사용 세무상결손금·세액공제 → 요건 충족 시 이연법인세<b>자산</b></p>
-
-<div class="key">⭐ 미래 세금 줄여주는 것 = 이연법인세자산</div>
-</div>
-</div>
-
-
-<!-- 18 -->
-<div class="card" data-type="공식">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">18</span>
-<span class="badge yellow">공식</span>
-<span class="title">법인세비용 계산</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>당기 법인세는 당기 과세소득 × 당기세율.</p>
-<p>이연법인세는 일시적차이가 <b>소멸할 것으로 예상되는 기간의 세율</b>을 사용.</p>
-<p>영구적 차이는 이연법인세를 만들지 않음.</p>
-
-<div class="key">⭐ 당기세금 = 올해 세율 / 이연세금 = 미래 적용세율</div>
-</div>
-</div>
-
-
-<!-- 19 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">19</span>
-<span class="badge red">암기</span>
-<span class="title">회계정책 vs 회계추정 변경</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p><b>측정기준 변경</b> → 회계정책 변경</p>
-<p>내용연수 변경 → 회계추정 변경</p>
-<p>잔존가치 변경 → 회계추정 변경</p>
-<p>감가상각방법 변경 → 회계추정 변경</p>
-
-<div class="key">⭐ 측정기준 = 정책 / 내용연수·잔존가치·상각방법 = 추정</div>
-</div>
-</div>
-
-
-<!-- 20 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">20</span>
-<span class="badge red">암기</span>
-<span class="title">가중평균유통보통주식수</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>자기주식은 유통주식이 아니므로 <b>취득 이후 제외</b>.</p>
-<p>공정가치 유상증자 → 납입일 기준 가중.</p>
-<p>무상증자 → 기초부터 있었던 것처럼 소급 조정.</p>
-<p>공정가치 미만 유상증자 → 유상 + 무상 요소로 구분.</p>
-
-<div class="key">⭐ 자기주식 = 유통주식수에서 빼기</div>
-</div>
-</div>
-
-
-<!-- 21 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">21</span>
-<span class="badge red">암기</span>
-<span class="title">외화 재무제표 환산</span>
-<span class="arrow">⌄</span>
+<div class="stats">
+ <div class="stat">재무<b id="a">0</b></div>
+ <div class="stat">세무<b id="b">0</b></div>
+ <div class="stat">원가<b id="c">0</b></div>
 </div>
-<div class="content">
-<p>자산·부채 → <b>보고기간 말 마감환율</b></p>
-<p>수익·비용 → <b>거래일 환율</b></p>
-<p>환율 변동이 유의적이지 않다면 수익·비용에 <b>기간 평균환율</b> 사용 가능.</p>
 
-<div class="key">⭐ 재무상태표 = 마감 / 손익 = 거래일(평균 가능)</div>
-</div>
-</div>
-
-
-<!-- 22 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">22</span>
-<span class="badge red">암기</span>
-<span class="title">위험회피회계</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p><b>현금흐름위험회피</b></p>
-<p>위험회피수단 손익 중 효과적인 부분 → OCI</p>
-
-<p><b>공정가치위험회피</b></p>
-<p>위험회피수단 손익 → 원칙적으로 당기손익</p>
-
-<p><b>해외사업장순투자 위험회피</b></p>
-<p>효과적인 부분 → OCI</p>
-
-<div class="key">⭐ 미래 현금흐름 변동 위험 = 현금흐름위험회피</div>
-</div>
-</div>
+<input id="q" placeholder="🔎 개념·핵심·풀이 검색">
 
-
-<!-- 23 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">23</span>
-<span class="badge red">암기</span>
-<span class="title">리스 증분차입이자율</span>
-<span class="arrow">⌄</span>
-</div>
-<div class="content">
-<p>비슷한 경제적 환경에서 비슷한 기간 동안 비슷한 담보로, 사용권자산과 가치가 비슷한 자산을 획득하는 데 필요한 자금을 빌린다면 지급해야 할 이자율.</p>
-
-<div class="key">⭐ 문제에 '리스이용자가 차입한다면' → 증분차입이자율</div>
-</div>
-</div>
-
-
-<!-- 24 -->
-<div class="card" data-type="암기">
-<div class="card-header" onclick="toggleCard(this)">
-<span class="number">24</span>
-<span class="badge red">암기</span>
-<span class="title">현금흐름표 재무활동</span>
-<span class="arrow">⌄</span>
+<div class="filters" id="subjects">
+ <button class="on" data-v="전체">전체</button>
+ <button data-v="재무회계">재무</button>
+ <button data-v="세무회계">세무</button>
+ <button data-v="원가관리회계">원가</button>
 </div>
-<div class="content">
-<p><b>재무활동</b></p>
-<p>• 주식 발행 현금유입</p>
-<p>• 차입금 상환</p>
-<p>• 리스부채 원금 상환</p>
 
-<p><b>재무활동 X</b></p>
-<p>• 단기매매목적 계약에서 발생한 현금흐름</p>
-
-<div class="key">⭐ 단기매매 목적 = 영업활동</div>
+<div class="filters" id="types">
+ <button class="on" data-v="전체">전체 유형</button>
+ <button data-v="암기">🔴 암기</button>
+ <button data-v="공식">🔵 공식</button>
+ <button data-v="이해">🟢 이해</button>
 </div>
-</div>
-
 
+<div id="list"></div>
 </div>
 
+<script src="data.js"></script>
 <script>
-function toggleCard(header) {
-  const card = header.parentElement;
-  card.classList.toggle("open");
+let S="전체",T="전체";
+const $=x=>document.querySelector(x);
+a.textContent=wrongAnswers.filter(x=>x.s=="재무회계").length;
+b.textContent=wrongAnswers.filter(x=>x.s=="세무회계").length;
+c.textContent=wrongAnswers.filter(x=>x.s=="원가관리회계").length;
+
+function draw(){
+ let z=q.value.toLowerCase();
+ list.innerHTML=wrongAnswers.filter(x=>
+  (S=="전체"||x.s==S)&&(T=="전체"||x.y==T)&&
+  (x.t+x.k+x.d+x.r.join(" ")).toLowerCase().includes(z)
+ ).map((x,i)=>`
+ <div class="card" onclick="this.classList.toggle('open')">
+  <div class="head">
+   <div class="meta ${x.y}">${x.y} · ${x.s}
+   ${x.r.length>1?`<span class="fire">🔥 ${x.r.length}회</span>`:""}</div>
+   <div class="title">${x.t}</div>
+   <div class="key">${x.k}</div>
+  </div>
+  <div class="detail">${x.d}<div class="round">출제: ${x.r.join(" · ")}</div></div>
+ </div>`).join("")||"<p>검색 결과가 없어 👀</p>"
 }
 
-function filterCards(type, button) {
-  const cards = document.querySelectorAll(".card");
-  const buttons = document.querySelectorAll(".filter");
-
-  buttons.forEach(btn => btn.classList.remove("active"));
-  button.classList.add("active");
-
-  cards.forEach(card => {
-    if (type === "all" || card.dataset.type === type) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-  });
+function buttons(id,set){
+ document.querySelectorAll("#"+id+" button").forEach(x=>x.onclick=()=>{
+  document.querySelectorAll("#"+id+" button").forEach(y=>y.classList.remove("on"));
+  x.classList.add("on");set(x.dataset.v);draw()
+ })
 }
+buttons("subjects",v=>S=v);
+buttons("types",v=>T=v);
+q.oninput=draw;
+draw();
 </script>
-
 </body>
 </html>
