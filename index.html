@@ -4,12 +4,99 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>재경관리사 오답노트</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#faf9f6;color:#202124;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}.wrap{max-width:700px;margin:auto;padding:28px 16px 70px}h1{margin:0;font-size:27px}.sub{color:#777;margin:6px 0 22px}.stats{display:flex;gap:8px;margin-bottom:16px}.stat{flex:1;background:#fff;border:1px solid #ddd;border-radius:13px;padding:11px;text-align:center;font-size:13px}.stat b{display:block;font-size:19px;margin-top:3px}input{width:100%;padding:13px 15px;border:1.5px solid #ccc;border-radius:13px;background:#fff;font-size:16px;outline:none;margin-bottom:11px}input:focus{border-color:#356ae6}.filters{display:flex;gap:7px;overflow:auto;margin:5px 0 16px;padding-bottom:3px}.filters button{white-space:nowrap;border:1px solid #ccc;background:#fff;padding:8px 11px;border-radius:20px;font-weight:650}.filters button.on{background:#202124;color:#fff;border-color:#202124}.card{background:#fff;border:1px solid #ddd;border-radius:14px;margin:9px 0;overflow:hidden}.head{padding:14px;cursor:pointer}.meta{font-size:12px;font-weight:700;margin-bottom:5px}.암기{color:#d9343a}.공식{color:#1769d2}.이해{color:#16844b}.title{font-size:16px;font-weight:750}.key{font-size:14px;color:#555;margin-top:5px}.detail{display:none;border-top:1px solid #eee;padding:13px 14px;line-height:1.65;font-size:14px}.card.open .detail{display:block}.round{margin-top:10px;color:#777;font-size:12px}.fire{float:right;color:#e05a22}
+*{box-sizing:border-box}
+body{
+ margin:0;background:#faf9f6;color:#202124;
+ font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif
+}
+.wrap{max-width:700px;margin:auto;padding:28px 16px 70px}
+h1{margin:0;font-size:27px}
+.sub{color:#777;margin:6px 0 22px}
+
+.stats{display:flex;gap:8px;margin-bottom:16px}
+.stat{
+ flex:1;background:#fff;border:1px solid #ddd;
+ border-radius:13px;padding:11px;text-align:center;font-size:13px
+}
+.stat b{display:block;font-size:19px;margin-top:3px}
+
+input{
+ width:100%;padding:13px 15px;border:1.5px solid #ccc;
+ border-radius:13px;background:#fff;font-size:16px;
+ outline:none;margin-bottom:11px
+}
+input:focus{border-color:#356ae6}
+
+.filters{
+ display:flex;gap:7px;overflow:auto;
+ margin:5px 0 16px;padding-bottom:3px
+}
+.filters button{
+ white-space:nowrap;border:1px solid #ccc;background:#fff;
+ padding:8px 11px;border-radius:20px;font-weight:650
+}
+.filters button.on{
+ background:#202124;color:#fff;border-color:#202124
+}
+
+.card{
+ background:#fff;border:1px solid #ddd;
+ border-radius:14px;margin:9px 0;overflow:hidden
+}
+.head{padding:14px;cursor:pointer}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.meta{font-size:12px;font-weight:700;margin-bottom:5px}
+.암기{color:#d9343a}
+.공식{color:#1769d2}
+.이해{color:#16844b}
+
+.title{font-size:16px;font-weight:750}
+.key{font-size:14px;color:#555;margin-top:5px}
+.detail{
+ display:none;border-top:1px solid #eee;
+ padding:13px 14px;line-height:1.65;font-size:14px
+}
+.card.open .detail{display:block}
+.round{margin-top:10px;color:#777;font-size:12px}
+.fire{color:#e05a22}
+
+/* 알고 있음 버튼 */
+.mark{
+ flex-shrink:0;
+ border:1px solid #bbb;
+ background:#fff;
+ color:#333;
+ border-radius:20px;
+ padding:7px 10px;
+ font-size:12px;
+ font-weight:700;
+ cursor:pointer
+}
+
+/* 알고 있음 카드: 배경만 회색, 글씨는 선명하게 */
+.card.known{
+ background:#ededed;
+ border-color:#aaa
+}
+.card.known .title{color:#171717}
+.card.known .key{color:#444}
+.card.known .meta,
+.card.known .round,
+.card.known .fire{color:#444}
+.card.known .detail{border-color:#ccc}
+.card.known .mark{
+ background:#555;
+ color:white;
+ border-color:#555
+}
 </style>
 </head>
+
 <body>
 <div class="wrap">
+
 <h1>📚 재경관리사 오답노트</h1>
 <div class="sub">헷갈리는 것만 빠르게 다시 보기</div>
 
@@ -35,42 +122,150 @@
  <button data-v="이해">🟢 이해</button>
 </div>
 
+<div class="filters" id="statuses">
+ <button class="on" data-v="전체">전체 상태</button>
+ <button data-v="모름">○ 모름</button>
+ <button data-v="알고 있음">✓ 알고 있음</button>
+</div>
+
 <div id="list"></div>
 </div>
 
 <script src="data.js"></script>
 <script>
-let S="전체",T="전체";
+let S="전체",T="전체",V="전체";
+
 const $=x=>document.querySelector(x);
-a.textContent=wrongAnswers.filter(x=>x.s=="재무회계").length;
-b.textContent=wrongAnswers.filter(x=>x.s=="세무회계").length;
-c.textContent=wrongAnswers.filter(x=>x.s=="원가관리회계").length;
+const list=$("#list");
+const q=$("#q");
+
+// 과목 이름 통일
+const subject=x=>x.s==="원가회계"?"원가관리회계":x.s;
+
+// 완전히 같은 데이터는 중복 표시하지 않음
+const seen=new Set();
+const cards=wrongAnswers.filter(x=>{
+ const k=JSON.stringify(x);
+ if(seen.has(k))return false;
+ seen.add(k);
+ return true;
+});
+
+// 카드별 고유 식별값
+const idFor=x=>JSON.stringify([subject(x),x.t,x.r]);
+
+// 알고 있음 상태 저장
+let known={};
+try{
+ known=JSON.parse(localStorage.getItem("wrongKnownV1"))||{};
+}catch(e){known={}}
+
+function save(){
+ try{
+  localStorage.setItem("wrongKnownV1",JSON.stringify(known));
+ }catch(e){}
+}
+
+// 펼친 카드 기억
+const opened=new Set();
+
+// HTML 특수문자 처리
+function esc(v){
+ return String(v).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+// 과목별 개수
+$("#a").textContent=cards.filter(x=>subject(x)=="재무회계").length;
+$("#b").textContent=cards.filter(x=>subject(x)=="세무회계").length;
+$("#c").textContent=cards.filter(x=>subject(x)=="원가관리회계").length;
 
 function draw(){
- let z=q.value.toLowerCase();
- list.innerHTML=wrongAnswers.filter(x=>
-  (S=="전체"||x.s==S)&&(T=="전체"||x.y==T)&&
-  (x.t+x.k+x.d+x.r.join(" ")).toLowerCase().includes(z)
- ).map((x,i)=>`
- <div class="card" onclick="this.classList.toggle('open')">
-  <div class="head">
-   <div class="meta ${x.y}">${x.y} · ${x.s}
-   ${x.r.length>1?`<span class="fire">🔥 ${x.r.length}회</span>`:""}</div>
-   <div class="title">${x.t}</div>
-   <div class="key">${x.k}</div>
-  </div>
-  <div class="detail">${x.d}<div class="round">출제: ${x.r.join(" · ")}</div></div>
- </div>`).join("")||"<p>검색 결과가 없어 👀</p>"
+ const z=q.value.toLowerCase();
+
+ list.innerHTML=cards.filter(x=>{
+  const id=idFor(x);
+  const done=!!known[id];
+
+  return (S=="전체"||subject(x)==S)
+   &&(T=="전체"||x.y==T)
+   &&(V=="전체"||(V=="알고 있음"?done:!done))
+   &&(x.t+x.k+x.d+x.r.join(" ")).toLowerCase().includes(z);
+ }).map(x=>{
+  const id=idFor(x);
+  const code=encodeURIComponent(id);
+  const done=!!known[id];
+
+  return `
+  <div class="card ${done?"known":""} ${opened.has(id)?"open":""}"
+       data-id="${code}">
+   <div class="head">
+    <div class="top">
+     <div class="meta ${esc(x.y)}">
+      ${esc(x.y)} · ${esc(subject(x))}
+      ${x.r.length>1?`<span class="fire">🔥 ${x.r.length}회</span>`:""}
+     </div>
+     <button class="mark" type="button" data-id="${code}">
+      ${done?"✓ 알고 있음":"○ 모름"}
+     </button>
+    </div>
+    <div class="title">${esc(x.t)}</div>
+    <div class="key">${esc(x.k)}</div>
+   </div>
+   <div class="detail">
+    ${esc(x.d)}
+    <div class="round">출제: ${esc(x.r.join(" · "))}</div>
+   </div>
+  </div>`;
+ }).join("")||"<p>검색 결과가 없어 👀</p>";
 }
 
+// 카드 열기 / 알고 있음 체크
+list.addEventListener("click",e=>{
+ const mark=e.target.closest(".mark");
+
+ if(mark){
+  const id=decodeURIComponent(mark.dataset.id);
+  known[id]=!known[id];
+  save();
+  draw();
+  return;
+ }
+
+ const card=e.target.closest(".card");
+ if(!card)return;
+
+ const id=decodeURIComponent(card.dataset.id);
+
+ if(opened.has(id)){
+  opened.delete(id);
+ }else{
+  opened.add(id);
+ }
+
+ card.classList.toggle("open");
+});
+
+// 필터 버튼
 function buttons(id,set){
- document.querySelectorAll("#"+id+" button").forEach(x=>x.onclick=()=>{
-  document.querySelectorAll("#"+id+" button").forEach(y=>y.classList.remove("on"));
-  x.classList.add("on");set(x.dataset.v);draw()
- })
+ document.querySelectorAll("#"+id+" button").forEach(x=>{
+  x.onclick=()=>{
+   document.querySelectorAll("#"+id+" button")
+    .forEach(y=>y.classList.remove("on"));
+
+   x.classList.add("on");
+   set(x.dataset.v);
+   draw();
+  };
+ });
 }
+
 buttons("subjects",v=>S=v);
 buttons("types",v=>T=v);
+buttons("statuses",v=>V=v);
+
 q.oninput=draw;
 draw();
 </script>
