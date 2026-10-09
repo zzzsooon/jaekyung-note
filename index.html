@@ -91,6 +91,15 @@ input:focus{border-color:#356ae6}
  color:white;
  border-color:#555
 }
+ .stats .stat{
+ cursor:pointer;
+ font-family:inherit;
+}
+.stats .stat.on{
+ background:#202124;
+ color:#fff;
+ border-color:#202124;
+}
 </style>
 </head>
 
@@ -100,20 +109,16 @@ input:focus{border-color:#356ae6}
 <h1>📚 재경관리사 오답노트</h1>
 <div class="sub">헷갈리는 것만 빠르게 다시 보기</div>
 
-<div class="stats">
- <div class="stat">재무<b id="a">0</b></div>
- <div class="stat">세무<b id="b">0</b></div>
- <div class="stat">원가<b id="c">0</b></div>
+<div class="stats" id="stats">
+ <button class="stat on" data-v="전체">전체<b id="all">0</b></button>
+ <button class="stat" data-v="재무회계">재무<b id="a">0</b></button>
+ <button class="stat" data-v="세무회계">세무<b id="b">0</b></button>
+ <button class="stat" data-v="원가관리회계">원가<b id="c">0</b></button>
 </div>
 
 <input id="q" placeholder="🔎 개념·핵심·풀이 검색">
 
-<div class="filters" id="subjects">
- <button class="on" data-v="전체">전체</button>
- <button data-v="재무회계">재무</button>
- <button data-v="세무회계">세무</button>
- <button data-v="원가관리회계">원가</button>
-</div>
+
 
 <div class="filters" id="types">
  <button class="on" data-v="전체">전체 유형</button>
@@ -181,7 +186,8 @@ function esc(v){
 $("#a").textContent=cards.filter(x=>subject(x)=="재무회계").length;
 $("#b").textContent=cards.filter(x=>subject(x)=="세무회계").length;
 $("#c").textContent=cards.filter(x=>subject(x)=="원가관리회계").length;
-
+$("#all").textContent=cards.length;
+ 
 function draw(){
  const z=q.value.toLowerCase();
 
@@ -262,7 +268,7 @@ function buttons(id,set){
  });
 }
 
-buttons("subjects",v=>S=v);
+buttons("stats",v=>S=v);
 buttons("types",v=>T=v);
 buttons("statuses",v=>V=v);
 
